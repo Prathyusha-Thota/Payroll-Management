@@ -1,0 +1,209 @@
+{% if session['role'] == 'supervisor' %}
+    {% include'shead.html' %}
+{% endif %}
+
+{% if session['role'] == 'admin' %}
+    {% include'ahead.html' %}
+{% endif %}
+<div class="row">
+    {% if session['role'] == 'supervisor' %}
+    <div class="col w-25">
+        <div class="card-4 p-20 m-20">
+            <div class="card-4-heading">Add Employee</div>
+            <form action="employee_action" method="post" enctype="multipart/form-data">
+                <div class="form-group2">
+                    <label for="employee_id">SSN</label>
+                    <input type="text" name="ssn" class="form-input2" id="employee_id" required placeholder="enter social security number">
+                </div>
+                <div class="form-group2">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-input2" id="name" required placeholder="Enter Name">
+                </div>
+                <div class="form-group2">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" class="form-input2" id="email" required placeholder="enter email">
+                </div>
+                <div class="form-group2">
+                    <label for="gender">Gender</label>
+                    <input type="radio" id="gender" name="gender" required value="male"><label for="gender">Male</label>
+                    <input type="radio" id="gender2" name="gender" required value="male"><label for="gender2">Female</label>
+                </div>
+                <div class="form-group2">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-input2" id="password" required placeholder="enter password">
+                </div>
+                <div class="form-group2">
+                    <label for="picture">Picture</label>
+                    <input type="file" class="form-input2" name="picture" id="picture" required>
+                </div>
+                <div class="form-group2">
+                    <label for="phone">Phone</label>
+                    <input type="number" name="phone" class="form-input2" id="phone" required placeholder="enter phone">
+                </div>
+                <div class="form-group2">
+                    <label for="role">Position</label>
+                    <input type="text" name="role" class="form-input2" id="role" required placeholder="enter position">
+                </div>
+                <div class="form-group2">
+                    <label for="joining_date">Wage Type</label>
+                    <select name="wage_type" class="form-input2" id="wage_type">
+                        <optgroup label="wage_type">
+                            <option value="monthly">Monthly</option>
+                            <option value="hourly">Hourly</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group2">
+                    <label for="joining_date">Joining Date</label>
+                    <input type="Date" name="joining_date" class="form-input2" id="joining_date" placeholder="joining_date">
+                </div>
+
+                <div class="form-group2">
+                    <input type="submit" class="port-9 " value="Add Employee">
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="col w-65">
+        <div class="row">
+            <div class="col w-20"></div>
+            <div class="col w-50 m-20">
+                <form action="employee">
+                    <div class="row">
+                        <div class="col w-20">
+                            <div for="search" class="text-right">Search</div>
+                        </div>
+                        <div class="col w-40">
+                            <input type="text" name="keyword" id="search" value="{{keyword}}"
+                                placeholder="choose employee">
+                        </div>
+                        <div class="col w-30">
+                            <input type="submit" value="submit">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col w-20"></div>
+        </div>
+        {% for employee in employees %}
+        {% set contract = get_contract_by_employee_id(employee[0]) %}
+        {% set supervisor = get_supervisor_by_supervisor_id(employee[10]) %}
+        <div class="card-4 mt-10">
+            <div class="row">
+                <div class="col w-30">
+                    <div class="item-title">Employee Details</div>
+                    <div>
+                        <img src="../static/employee/{{employee[11]}}" class="card-image" height="60px" width="70px" alt="">
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">Supervisor Name</div>
+                        <div class="item-text">{{supervisor[1]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">Employee_id</div>
+                        <div class="item-text">{{employee[8]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">Name</div>
+                        <div class="item-text">{{employee[1]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">Email</div>
+                        <div class="item-text">{{employee[2]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">Phone</div>
+                        <div class="item-text">{{employee[3]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">gender</div>
+                        <div class="item-text">{{employee[5]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">Position</div>
+                        <div class="item-text">{{employee[6]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">Wage Type</div>
+                        <div class="item-text">{{employee[7]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">joining_date</div>
+                        <div class="item-text">{{employee[8]}}</div>
+                    </div>
+
+                </div>
+                <div class="col w-30">View Contracts
+                    {% if contract == None %}
+                        {% if session['role'] == "supervisor" %}
+                        <div>
+                            <a href="add_contract?employee_id={{employee[0]}}">Add Contract</a>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                    {% if contract != None %}
+                    {% if employee[7] == 'hourly' %}
+                    <div class="mt-5">
+                        <div class="item-label">pay_per_hour</div>
+                        <div class="item-text">$ {{contract[1]}}</div>
+                    </div>
+                    {% endif %}
+                    <div class="mt-5">
+                        <div class="item-label">over_time_pay_per_hour</div>
+                        <div class="item-text">$ {{contract[2]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">food_allows</div>
+                        <div class="item-text">$ {{contract[3]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">travelling_allows</div>
+                        <div class="item-text">$ {{contract[4]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">house_rent_allows</div>
+                        <div class="item-text">$ {{contract[5]}}</div>
+                        <input type="hidden" name="house_rent_allows" id="house_rent_allows">
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">bonus</div>
+                        <div class="item-text">$ {{contract[7]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">health_insurance</div>
+                        <div class="item-text">$ {{contract[6]}}</div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="item-label">state_tax</div>
+                        <div class="item-text">{{contract[8]}} %</div>
+                    </div>
+                    {% if employee[7] == 'monthly' %}
+                    <div class="mt-5">
+                        <div class="item-label">monthly salary</div>
+                        <div class="item-text">{{contract[9]}}</div>
+                    </div>
+                    {% endif %}
+                    <div class="mt-5">
+                        <div class="item-label">income_tax</div>
+                        <div class="item-text">{{contract[10]}} %</div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col w-30">
+                    <div class="m-50">
+                        <a class="card-btn" href="/leaves?employee_id={{employee[0]}}">Leaves</a>
+                    </div>
+                    <div class="m-50">
+                        <a class="card-btn" href="/paychecks?employee_id={{employee[0]}}">Pay Slips</a>
+                    </div>
+                    <div class="m-50">
+                        <a class="card-btn" href="/transactions?employee_id={{employee[0]}}">Working Hours</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

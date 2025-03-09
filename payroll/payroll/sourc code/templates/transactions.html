@@ -1,0 +1,86 @@
+{% if session['role'] == 'supervisor' %}
+    {% include'shead.html' %}
+{% endif %}
+
+{% if session['role'] == 'admin' %}
+    {% include'ahead.html' %}
+{% endif %}
+
+{% if session['role'] == 'employee' %}
+    {% include 'ehead.html'%}
+{% endif %}
+<div class="m-5">
+    {% if session['role'] == 'supervisor' or session['role'] == 'employee' %}
+    <form action="transactions_action" method="post" class="row m-20">
+        <input type="hidden" name="employee_id" value="{{employee_id}}">
+        <div>
+            <label for="clock_in_date_time">Clock_in_date_time</label>
+            <input type="datetime-local" id="clock_in_date_time" name="clock_in_date_time"
+                placeholder="enter clock_in_date_time">
+        </div>
+        <div>
+            <label for="clock_out_date_time">Clock_out_date_time</label>
+            <input type="datetime-local" id="clock_out_date_time" name="clock_out_date_time"
+                placeholder="enter clock_out_date_time">
+        </div>
+        <div>
+            <label for="over_time">Over time</label>
+            <input type="number" id="over_time" value="0" name="over_time" placeholder="enter over_time">
+        </div>
+        <div>
+            <input type="submit" class="p-5 w-10" value="Add">
+        </div>
+    </form>
+    {% endif %}
+    <table class="table m-30" border="1">
+        <thead>
+            <tr>
+                <th>clock_in_date_time</th>
+                <th>clock_out_date_time</th>
+                <th>over_time</th>
+                <th>date</th>
+                <th>working hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{transaction[1]}}</td>
+                    <td>{{transaction[2]}}</td>
+                    <td>{{transaction[5]}} hours</td>
+                    <td>{{transaction[6]}}</td>
+                    <td>{{transaction[4]}} hours</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<!--    <div class="card-4 mt-10">-->
+<!--        <div class="row">-->
+<!--            {% for transaction in transactions %}-->
+<!--            <div class="col w-40">-->
+<!--                <div class="mt-5">-->
+<!--                    <div class="item-label">transaction_id</div>-->
+<!--                    <div class="item-text">{{transaction['transaction_id']}}</div>-->
+<!--                </div>-->
+<!--                <div class="mt-5">-->
+<!--                    <div class="item-label">clock_in_date_time</div>-->
+<!--                    <div class="item-text">{{transaction['clock_in_date_time']}}</div>-->
+<!--                </div>-->
+<!--                <div class="mt-5">-->
+<!--                    <div class="item-label">clock_out_date_time</div>-->
+<!--                    <div class="item-text">{{transaction['clock_out_date_time']}}</div>-->
+<!--                </div>-->
+<!--                <div class="mt-5">-->
+<!--                    <div class="item-label">over_time</div>-->
+<!--                    <div class="item-text">{{transaction['over_time']}}</div>-->
+<!--                </div>-->
+<!--                <div class="mt-5">-->
+<!--                    <div class="item-label">date</div>-->
+<!--                    <div class="item-text">{{transaction['date']}}</div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <!-- {% endfor %}
+        </div>
+    </div>  -->
+</div>
