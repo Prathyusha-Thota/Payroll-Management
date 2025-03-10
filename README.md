@@ -1,41 +1,51 @@
 # Payroll Management System
 
-## Description
-The Payroll Management System is a web-based application that automates employee salary processing, tax calculations, and record management.
+## Overview
+The Payroll Management System is a modular and responsive application designed to automate salary processing and employee records. It ensures scalability and resilience using AWS and Chaos Engineering principles.
 
-## Features
+- ## Features
 - Employee management (add, update, delete employees)
 - Payroll processing (salary calculation, tax deductions)
 - User authentication and role-based access
 - Reports generation for payroll data
+- Scalable and resilient infrastructure using AWS
+- Chaos Engineering implementation using AWS and Terraform
 
 ## Technologies Used
-- **Backend:** Python (Flask/Django)
 - **Frontend:** HTML, CSS
+- **Backend:** Python (Flask/Django)
 - **Database:** SQL (MySQL/PostgreSQL)
+- **Cloud Services:** AWS
+- **Infrastructure as Code:** Terraform
+- **Chaos Engineering:** AWS Fault Injection Simulator (FIS)
 
 ## Installation
 1. Clone the repository:
    ```sh
-   git clone <repository_url>
-   cd payroll_management
+   git clone https://github.com/your-repo/payroll-management.git
    ```
-2. Install dependencies:
+2. Navigate to the project directory:
+   ```sh
+   cd payroll-management
+   ```
+3. Install dependencies:
    ```sh
    pip install -r requirements.txt
    ```
-3. Set up the database:
+4. Set up environment variables:
    ```sh
-   python manage.py migrate  # For Django
-   flask db upgrade           # For Flask
+   export AWS_ACCESS_KEY_ID=your_key
+   export AWS_SECRET_ACCESS_KEY=your_secret
    ```
-4. Run the application:
+5. Run the application:
    ```sh
-   python main.py  # or flask run
+   python main.py
    ```
 
-## Usage
-- Open `http://localhost:5000` in your browser.
-- Login as admin to manage payroll and employees.
+## Deployment
+- Deploy the application using AWS services such as EC2, S3, and Lambda.
+- Use Terraform scripts to automate infrastructure provisioning.
+- Implement Chaos Engineering tests with AWS FIS to ensure system resilience.
+
 
 
